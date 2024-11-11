@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ trip.start_location }} to {{ trip.end_location }} - Trip Planner{% endblock %}
+
+{% block content %}
+<style>
+    /* Scoped styles for Trip Detail page */
+
+    /* Page title styles */
+    .trip-detail-title {
+        font-size: 2.5em;
+        color: #007bff; /* Primary color */
+        text-align: center;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+    /* Description styles */
+    .trip-description {
+        font-size: 1.2em;
+        margin-bottom: 20px;
+        text-align: center;
+        color: #555555; /* Muted text color */
+    }
+
+    /* Seats available styles */
+    .seats-available {
+        font-size: 1.2em;
+        margin-bottom: 30px;
+        text-align: center;
+        color: #555555; /* Muted text color */
+    }
+
+    /* Book a Seat link styles */
+    .book-link {
+        display: block;
+        text-align: center;
+        margin-bottom: 30px;
+        text-decoration: none;
+        color: #007bff;
+        font-size: 1.5em;
+        transition: color 0.3s, transform 0.3s;
+    }
+
+    .book-link:hover {
+        color: #0056b3;
+        transform: scale(1.05);
+    }
+
+    /* Booking details container */
+    .booking-container {
+        margin: 0 auto;
+        max-width: 600px;
+        padding: 20px;
+        background-color: #ffffff;
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+    }
+
+    .booking-container h1 {
+        font-size: 1.5em;
+        color: #343a40;
+        margin-bottom: 10px;
+    }
+
+    .booking-container p {
+        font-size: 1.1em;
+        color: #555555;
+        margin-bottom: 10px;
+    }
+
+    /* Form styles */
+    .booking-form {
+        max-width: 400px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #ffffff;
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .booking-form label {
+        display: block;
+        font-size: 1.1em;
+        margin-bottom: 10px;
+        color: #343a40;
+    }
+
+    .booking-form input[type="number"] {
+        width: 100%;
+        padding: 10px;
+        font-size: 1em;
+        margin-bottom: 20px;
+        border: 1px solid #ced4da;
+        border-radius: 4px;
+        transition: border-color 0.3s;
+    }
+
+    .booking-form input[type="number"]:focus {
+        border-color: #007bff;
+        outline: none;
+    }
+
+    .booking-form button {
+        width: 100%;
+        padding: 12px;
+        background-color: #007bff;
+        color: #ffffff;
+        border: none;
+        border-radius: 6px;
+        font-size: 1.1em;
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.2s;
+    }
+
+    .booking-form button:hover {
+        background-color: #0056b3;
+        transform: translateY(-2px);
+    }
+
+    .booking-form button:active {
+        transform: translateY(0);
+    }
+</style>
+<h1 class="trip-detail-title">{{ trip.start_location }} to {{ trip.end_location }} on {{ trip.date }}</h1>
+<p class="trip-description">{{ trip.description }}</p>
+<p class="seats-available">Seats Available: {{ trip.seats_available }}</p>
+
+<a href="{% url 'booking_create' trip.id %}" class="book-link">Book a Seat </a>
+
+{% for booking in trip_book %}
+    <a href="{% url 'booking_detail' booking.id %}" class="booking-link">
+    <div class="booking-container">
+        <h1>{{ booking.user }}</h1>
+        <p>Seats Booked: {{ booking.seats_booked }}</p>
+    </div>
+    </a>
+{% endfor %}
+{% endblock %}
